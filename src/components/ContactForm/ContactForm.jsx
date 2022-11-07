@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 //
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from '../../redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+// import { addContact } from 'redux/contactsSlice';
 
 const phoneRegExp =
   /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
@@ -64,7 +64,7 @@ export default function ContactForm() {
       toast.warning(`${name} is already in contacts`, {});
       return;
     }
-    dispatch(addContact(contact));
+    // dispatch(addContact(contact));
   };
 
   const onFormError = error => {

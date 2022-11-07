@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Filter from 'components/Filter';
 import ContactForm from 'components/ContactForm';
 import Box from '../Box';
@@ -6,22 +6,23 @@ import ContactsTable from 'components/ContactsTable';
 import { useTheme } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
 //
-import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from '../../redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchContacts } from 'redux/operations';
+import { getError, getIsLoading } from 'redux/selectors';
 
 export default function PhoneBook() {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
   const theme = useTheme();
 
-  const filteredContacts = useMemo(() => {
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
-  }, [contacts, filter]);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
-    <>
+    <Box>
       <Box as={'h1'} mb={'10px'} color={theme.palette.text.primary}>
         Phonebook
       </Box>
@@ -30,8 +31,10 @@ export default function PhoneBook() {
         Contacts
       </Box>
       <Filter />
-      {filteredContacts && <ContactsTable contacts={filteredContacts} />}
+      {isLoading && !error && <b>Request in progress...</b>}
+      <ContactsTable />
+
       <ToastContainer position="top-right" autoClose={2000} theme="colored" />
-    </>
+    </Box>
   );
 }
