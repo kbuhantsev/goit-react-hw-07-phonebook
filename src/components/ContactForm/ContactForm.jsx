@@ -1,5 +1,5 @@
 import React from 'react';
-import { customAlphabet } from 'nanoid';
+// import { customAlphabet } from 'nanoid';
 import * as Yup from 'yup';
 import { ButtonStyled, FormStyled } from './ContactForm.styled';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,8 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
 
 //
-import { useSelector, useDispatch } from 'react-redux';
-import { getContacts } from '../../redux/selectors';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { getContacts } from '../../redux/selectors';
 // import { addContact } from 'redux/contactsSlice';
 
 const phoneRegExp =
@@ -30,11 +30,6 @@ const schema = Yup.object({
     .required('This field is required!'),
 }).required();
 
-const generateId = () => {
-  const nanoid = customAlphabet('1234567890abcdefg', 10);
-  return nanoid(7);
-};
-
 export default function ContactForm() {
   const {
     control,
@@ -49,21 +44,21 @@ export default function ContactForm() {
     resolver: yupResolver(schema),
   });
 
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
+  // const contacts = useSelector(getContacts);
+  // const dispatch = useDispatch();
 
   const onFormSubmit = data => {
-    const { name, number } = data;
-    const id = generateId();
-    const contact = {
-      id,
-      name,
-      number,
-    };
-    if (contacts.find(contact => contact.name === name)) {
-      toast.warning(`${name} is already in contacts`, {});
-      return;
-    }
+    // const { name, number } = data;
+    // const id = generateId();
+    // const contact = {
+    //   id,
+    //   name,
+    //   number,
+    // };
+    // if (contacts.find(contact => contact.name === name)) {
+    //   toast.warning(`${name} is already in contacts`, {});
+    //   return;
+    // }
     // dispatch(addContact(contact));
   };
 

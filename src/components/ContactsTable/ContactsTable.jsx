@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StyledTableCell, StyledTableRow } from './ContactsTable.styled';
 //
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getContacts, getFilter } from 'redux/selectors';
 // import { deleteContact } from '../../redux/contactsSlice';
 
