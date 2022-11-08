@@ -8,14 +8,14 @@ import { ToastContainer } from 'react-toastify';
 //
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchContacts } from 'redux/operations';
-import { getError, getIsLoading } from 'redux/selectors';
+import { selectError, selectIsLoading } from 'redux/selectors';
 
 export default function PhoneBook() {
   const theme = useTheme();
 
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());

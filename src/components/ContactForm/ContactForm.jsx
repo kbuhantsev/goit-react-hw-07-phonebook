@@ -9,11 +9,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 
 //
-// import { useSelector, useDispatch } from 'react-redux';
-// import { getContacts } from '../../redux/selectors';
-// import { addContact } from 'redux/contactsSlice';
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 const phoneRegExp =
   /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
@@ -24,7 +24,7 @@ const schema = Yup.object({
     .min(3, 'Minimum 3 letters!')
     .matches(nameReExp, 'Name is not valid!')
     .required('This field is required!'),
-  number: Yup.string()
+  phone: Yup.string()
     .matches(phoneRegExp, 'Phone number is not valid!')
     .max(13, 'Maximum 13 numbers!')
     .required('This field is required!'),
@@ -39,27 +39,25 @@ export default function ContactForm() {
   } = useForm({
     defaultValues: {
       name: '',
-      number: '',
+      phone: '',
     },
     resolver: yupResolver(schema),
   });
 
-  // const contacts = useSelector(getContacts);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
 
   const onFormSubmit = data => {
-    // const { name, number } = data;
-    // const id = generateId();
-    // const contact = {
-    //   id,
-    //   name,
-    //   number,
-    // };
-    // if (contacts.find(contact => contact.name === name)) {
-    //   toast.warning(`${name} is already in contacts`, {});
-    //   return;
-    // }
-    // dispatch(addContact(contact));
+    const { name, phone } = data;
+    const contact = {
+      name,
+      phone,
+    };
+    if (contacts.find(contact => contact.name === name)) {
+      toast.warning(`${name} is already in contacts`, {});
+      return;
+    }
+    dispatch(addContact(contact));
   };
 
   const onFormError = error => {
@@ -91,16 +89,16 @@ export default function ContactForm() {
         />
 
         <Controller
-          name="number"
+          name="phone"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
-              label="Number"
+              label="Phone"
               variant="outlined"
               size="small"
-              error={errors.number && true}
-              helperText={errors.number?.message}
+              error={errors.phone && true}
+              helperText={errors.phone?.message}
             />
           )}
         />

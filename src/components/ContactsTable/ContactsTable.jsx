@@ -8,26 +8,17 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StyledTableCell, StyledTableRow } from './ContactsTable.styled';
 //
-import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
-// import { deleteContact } from '../../redux/contactsSlice';
-
-const getFilteredContacts = (contacts, filter) => {
-  return contacts.filter(({ name }) =>
-    name.toLowerCase().includes(filter.toLowerCase())
-  );
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFilteredContacts } from 'redux/selectors';
+import { deleteContact } from 'redux/operations';
 
 function ContactsTable() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const contacts = useSelector(getContacts);
-  // console.log(contacts);
-  const filter = useSelector(getFilter);
-  const filteredContacts = getFilteredContacts(contacts, filter);
+  const contacts = useSelector(selectFilteredContacts);
 
   const onDelete = ({ id }) => {
-    // dispatch(deleteContact(id));
+    dispatch(deleteContact(id));
   };
 
   return (
@@ -42,7 +33,7 @@ function ContactsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredContacts.map(({ id, name, phone }) => (
+          {contacts.map(({ id, name, phone }) => (
             <StyledTableRow key={id}>
               <StyledTableCell scope="row">{id}</StyledTableCell>
               <StyledTableCell align="right">{name}</StyledTableCell>
